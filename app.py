@@ -28,6 +28,8 @@ def predict():
         desired_acc = prev_acc            # Keeping it same
         time = 10                         # Fixed value
 
+        columns = ["prev_speed", "prev_acc", "desired_speed", "desired_acc", "time"]
+
         # Convert to numpy array
         input_data = pd.DataFrame([[prev_speed, prev_acc, desired_speed, desired_acc, time]], columns=columns)
 
