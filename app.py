@@ -1,7 +1,12 @@
 from flask import Flask, request, jsonify
 import tensorflow as tf
 import joblib
-import numpy as np
+import pandas as pd
+
+# Limit TensorFlow thread usage (important on Render free tier)
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
+
 
 # Load model and scaler (compile disabled for inference)
 model = tf.keras.models.load_model("typing_days_regression_model.h5", compile=False)
@@ -24,7 +29,7 @@ def predict():
         time = 10                         # Fixed value
 
         # Convert to numpy array
-        input_data = np.array([[prev_speed, prev_acc, desired_speed, desired_acc, time]])
+        input_data = pd.DataFrame([[prev_speed, prev_acc, desired_speed, desired_acc, time]], columns=columns)
 
         # Scale input
         input_scaled = scaler.transform(input_data)
@@ -42,4 +47,4 @@ def predict():
         return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=7000)
