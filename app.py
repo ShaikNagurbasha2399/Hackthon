@@ -3,6 +3,8 @@ import tensorflow as tf
 import joblib
 import pandas as pd
 from flask_cors import CORS
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 # Limit TensorFlow thread usage (important on Render free tier)
