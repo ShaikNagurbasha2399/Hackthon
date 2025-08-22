@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 import tensorflow as tf
 import joblib
 import pandas as pd
+from flask_cors import CORS
+
 
 # Limit TensorFlow thread usage (important on Render free tier)
 tf.config.threading.set_intra_op_parallelism_threads(1)
@@ -14,6 +16,8 @@ scaler = joblib.load("scaler.pkl")
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
